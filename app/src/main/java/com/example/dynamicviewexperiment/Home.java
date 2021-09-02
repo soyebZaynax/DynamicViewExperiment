@@ -8,12 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
 
     LinearLayout linearLayout;
     Button buttonAdd;
     Button buttonSubmit;
+
+    ArrayList<Cricketer> cricketerArrayList = new ArrayList<>();
 
 
 
@@ -32,7 +37,7 @@ public class Home extends AppCompatActivity {
 
         buttonSubmit.setOnClickListener(view -> {
             if (checkIfValidAndRead()){
-
+                Toast.makeText(this, "Please Select at least one", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -41,8 +46,34 @@ public class Home extends AppCompatActivity {
     }
 
     private boolean checkIfValidAndRead() {
-
+        cricketerArrayList.clear();
         boolean result = true;
+
+        for (int i = 0;i<linearLayout.getChildCount();i++){
+
+            View cricketView = linearLayout.getChildAt(i);
+
+            EditText editText = (EditText) cricketView.findViewById(R.id.edtName);
+
+            Cricketer  cricketer = new Cricketer();
+
+            if (!editText.getText().toString().equals("")){
+                cricketer.setName(editText.getText().toString());
+            }else {
+                return false;
+
+            }
+
+            cricketerArrayList.add(cricketer);
+
+            if (cricketerArrayList.size()==0){
+                result = false;
+                Toast.makeText(this, "Please Select at least one", Toast.LENGTH_SHORT).show();
+            }else if (!result){
+                Toast.makeText(this, "Enter All", Toast.LENGTH_SHORT).show();
+            }
+
+        }
 
         return result;
 
